@@ -1,0 +1,40 @@
+---
+
+- name: Create Selenium user
+  user:
+    name: "{{ selenium_user }}"
+    shell: '/sbin/nologin'
+    append: yes
+    comment: "Selenium server user"
+    state: present
+    
+- name: Open Selenium firewall port
+  firewalld:
+    port: "{{ selenium_port }}/tcp"
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: Create Selenium dirs
+  file:
+    path: "{{ selenium_install_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Download Selenium server
+  get_url:
+    url: "{{ selenium_download_url }}"
+    dest: "{{ selenium_install_dir }}/{{ selenium_download_filename }}"
+    owner: root
+    group: root
+    mode: 0644
+  register: selenium_downloaded
+  notify:
+    - restart selenium
+
+- name: symlink Selenium server
+  file:
+    src: "{{ selenium_install_dir }}/{{ selenium_download_filename }}"
+    dest: "{{ selenium_install_dir }}/{{ selenium_symlink_filename }}"
+    state: link
+  when: selenium_downloaded.changed

@@ -1,0 +1,7 @@
+---
+
+- name: restart selenium
+  service:
+    name: "{{ selenium_service_name }}"
+    state: restarted
+    enabled: yes

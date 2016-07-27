@@ -1,0 +1,9 @@
+selenium_major_version: '2.53'
+selenium_minor_version: '1'
+selenium_download_url: 'http://selenium-release.storage.googleapis.com/{{ selenium_major_version }}/{{ selenium_download_filename }}'
+selenium_download_filename: 'selenium-server-standalone-{{ selenium_major_version }}.{{ selenium_minor_version }}.jar'
+selenium_install_dir: '/opt/selenium'
+selenium_symlink_filename: 'selenium-server.jar'
+selenium_port: '4444'
+selenium_user: selenium
+selenium_service_name: selenium-server
